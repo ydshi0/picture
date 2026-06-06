@@ -103,6 +103,10 @@ def trim_git_history(repo_dir, keep=3):
         ["git", "branch", "-m", current_branch],
         ["git", "reflog", "expire", "--expire=now", "--all"],
         ["git", "gc", "--prune=now", "--aggressive"],
+        # 👇 新增：自动恢复远程追踪关系
+        ["git", "branch", "--set-upstream-to", f"origin/{current_branch}", current_branch],
+        ["git", "reflog", "expire", "--expire=now", "--all"],
+        ["git", "gc", "--prune=now", "--aggressive"],
     ]
 
     for cmd in cmds:
